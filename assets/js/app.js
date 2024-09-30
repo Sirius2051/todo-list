@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     async function fetchAndDisplayCards() {
         try {
-            const response = await fetch('http://localhost:3000/api/get/task');
+            const response = await fetch('/api/get/task');
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
@@ -103,6 +103,16 @@ document.addEventListener('DOMContentLoaded', () => {
       }
   }
 
+      const openModalButton = document.getElementById('openModal');
+      openModalButton.addEventListener("click", () => {
+        modal.getElementsByClassName("_id")[0].value = ""
+        modal.getElementsByClassName("nameInput")[0].value = ""
+        modal.getElementsByClassName("descriptionInput")[0].value = ""
+        modal.getElementsByClassName("dateInput")[0].value = ""
+        modal.classList.remove('hidden');
+        modalOverlay.classList.remove('hidden');
+    });
+    document.getElementById('saveButton').addEventListener('click', saveTask);
 
     function setButtons(data) {
         const openModalButtons = document.getElementsByClassName('openModal');
@@ -110,7 +120,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const closeModalButton = document.getElementById('closeModal');
         const modal = document.getElementById('modal');
         const modalOverlay = document.getElementById('modalOverlay');
-        const openModalButton = document.getElementById('openModal');
         
         for (var i=0; i< openModalButtons.length; i++) {
             openModalButtons[i].addEventListener("click", (e) => {
@@ -128,14 +137,15 @@ document.addEventListener('DOMContentLoaded', () => {
              deleteTask(e.target.value);
           });
         }
-        openModalButton.addEventListener("click", () => {
-            modal.getElementsByClassName("_id")[0].value = ""
-            modal.getElementsByClassName("nameInput")[0].value = ""
-            modal.getElementsByClassName("descriptionInput")[0].value = ""
-            modal.getElementsByClassName("dateInput")[0].value = ""
-            modal.classList.remove('hidden');
-            modalOverlay.classList.remove('hidden');
-        });
+        for (var i=0; i< openModalButtons.length; i++) {
+          openModalButtons[i].addEventListener("click", (e) => {
+             var faqsdata = data.find(item => item._id == e.target.value);
+             modal.getElementsByClassName("_id")[0].value = faqsdata._id
+             modal.getElementsByClassName("nameInput")[0].value = faqsdata.title
+             modal.getElementsByClassName("descriptionInput")[0].value = faqsdata.description
+          });
+      }
+        
         closeModalButton.addEventListener('click', () => {
             modal.classList.add('hidden');
             modalOverlay.classList.add('hidden');

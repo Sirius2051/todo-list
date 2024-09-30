@@ -1,6 +1,7 @@
+require('dotenv').config();
 const { MongoClient } = require('mongodb');
-const uri = "mongodb://localhost:27017";
-const client = new MongoClient(uri);
+
+const client = new MongoClient(process.env.URI);
 
 async function connectDB() {
     try {
@@ -10,6 +11,4 @@ async function connectDB() {
         console.error(err);
     }
 }
-
 module.exports = { connectDB, client };
-

@@ -1,4 +1,4 @@
-const { MongoClient, ObjectId } = require('mongodb');
+const { ObjectId } = require('mongodb');
 const { client } = require('../../db/db');
 
 async function createTask(task) {
@@ -22,7 +22,6 @@ async function getTasks() {
         await client.close();
     }
 }
-
 async function updateTask(taskId, updatedTask) {
     try {
         await client.connect();
